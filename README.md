@@ -4,20 +4,17 @@
 
 Irei dividir os bad smells de acordo com a classe para melhor organização
 
-### Anúncio
+### Anúncio:
+-   O atributo "codigoPreco" não tem um nome significativo, tanto que não entendi propriamente o seu significado. Entendi que esse seria o tipo do anuncio, podem esse ser do tipo Imagem, Video ou Texto.
 
-- O atributo "codigoPreco" não tem um nome significativo, tanto que não entendi direito ainda se a interpretação que tive foi correta. Entendi que esse é o tipo do Anuncio, sendo esse **IMAGEM**, **VIDEO** ou **TEXTO —**
-- A classe anúncio poderia ser uma classe abstrata, cujo subClasses tem o calculo do preço de acordo com seu tipo —
+### Compra:
+-   O atributo "diasAnuncio" não é de forma alguma significativo para a duração em dias do anúncio. ​
+-   A classe compra é uma clase preguiçosa, uma vez que ela não adiciona nenhuma lógica de negócio, apenas possui um objeto do tipo Anuncio e uma informação sobre esse anuncio, informação essa que deveri estar dentro da classe Anuncio.
 
-### Compra
+### Cliente:
+- A classe Cliente conhece atribútos demais das classe Anuncio e Compra, além de trazer regras de negócio que deveriam pertencer à classe Anuncio ou Compra, dessa forma a classe Cliente é uma classe que tem o bad smell "inveja de recursos"
+- O método "historico" dessa classe faz muitas operações distintas, chegando ao ponto de ficar confuso o que ela se propõe a fazer, esse fato se encaixa no bad smell de "método muito grande". 
 
-- O atributo "diasAnuncio" não é significativo o suficiente para que outro programador conseguir entender o que ele representa.
-- A classe compra é uma classe **preguiçosa**, uma vez que ela não adiciona nenhuma lógica de negócio, apenas possui a classe anúncio e uma informação sobre esse anúncio, informação essa que deveria estar dentro da classe Anuncio — `**Classe preguiçosa**`
-
-### Cliente
-
-- A classe Cliente conhece muitos atributos e trás para sí regras de negócio que deveriam pertencer à classe de Anúncio ou a classe de Compra, se cacterizando como o bad smell — **`INVEJA DE RECURSOS`**
-- O método "histórico" dessa classe faz muita coisa, chegando ao ponto de ficar confuso o que ele se propõe a fazer, se encaixando no bad smell de método muito grande. — `**Metodo muito grande**`
 
 ## Refatorações feitas
 
