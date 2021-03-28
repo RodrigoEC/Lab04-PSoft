@@ -1,56 +1,53 @@
 package src;
 
+import src.anuncios.Anuncio;
+
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Vector;
 
 
 class Cliente {
 	private String nome;
-	private Vector compras = new Vector();
+	private List<Anuncio> anuncios;
+	private int pontosTotal;
 
 	public Cliente(String nome) {
 		this.nome = nome;
+		this.anuncios = new ArrayList<>();
+		this.pontosTotal = 0;
 	}
 
-	public void addCompra(Compra arg) {
-		compras.addElement(arg);
+	public void addAnuncio(Anuncio novoAnuncio) {
+		anuncios.add(novoAnuncio);
 	}
 
 	public String getNome() {
 		return nome;
 	}
-	
-	public String historico() {
-		double total = 0;
-		int pontosFRequentes = 0;
-		Enumeration comprasAnuncio = compras.elements();
-		String resultado = "Historico de compras de anuncios por " + getNome() + "\n";
-		while (comprasAnuncio.hasMoreElements()) {
-			double totalParcial = 0;
-			Compra cada = (Compra) comprasAnuncio.nextElement();
-			switch (cada.getAnuncio().getCodigoPreco()) {
-			case Anuncio.IMAGEM:
-				totalParcial += 2;
-				if (cada.getDiasAnuncio() > 2)
-					break;
-			case Anuncio.VIDEO:
-				totalParcial += cada.getDiasAnuncio() * 3;
-				break;
-			case Anuncio.TEXTO:
-				totalParcial += 1.5;
-				if (cada.getDiasAnuncio() > 3)
-					totalParcial += (cada.getDiasAnuncio() - 3) * 1.5;
-				break;
-			}
-			pontosFRequentes++;
-			if ((cada.getAnuncio().getCodigoPreco() == Anuncio.VIDEO) && cada.getDiasAnuncio() > 1)
-				pontosFRequentes++;
-			resultado += "\t" + cada.getAnuncio().getDescricao() + "\t" + String.valueOf(totalParcial) + "\n";
-			total += totalParcial;
+
+	public double calculaPrecoTotal() {
+		double precoTotal = 0;
+
+		for (Anuncio anuncio: anuncios) {
+			precoTotal += anuncio.calculaPreco();
+			this.pontosTotal += anuncio.calculaPontuacao();
 		}
-		resultado += "Total devido é " + String.valueOf(total) + "\n";
-		resultado += "Voce ganhou " + String.valueOf(pontosFRequentes) + " pontod";
-		return resultado;
+
+		return precoTotal;
+	}
+
+	public String exibeInfoCliente(double precoTotal) {
+		String info = String.format("Histórico de compras de anúncios por: %s \n" +
+				"- Total devido é %.1f\n" +
+				"- Você ganhou %d pontos.", this.getNome(), precoTotal, this.pontosTotal);
+		return info;
+	}
+
+	public String historico() {
+		double precoTotal = this.calculaPrecoTotal();
+		return exibeInfoCliente(precoTotal);
 	}
 
 }
